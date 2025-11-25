@@ -22,6 +22,7 @@ pip install -r requirements.txt
 2. Instalar a extensão de git https://code.visualstudio.com/docs/sourcecontrol/github
 3. Criar conta github
 4. Na extensão fazer clone repository e por o url como na documentação
+    - Quando for pedido um path para guardar os repositórios criar 'C:\GIT' e apontar essa pasta
 5. Abrir o terminal no vscode e adicionar o seguinte código, editando o nome e o e-mail (do github):
     ```bash
     git config --global user.name "YOUR_NAME"
