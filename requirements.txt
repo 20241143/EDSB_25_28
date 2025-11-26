@@ -2,8 +2,10 @@
 # Add libraries here as your project grows
 
 # Example common packages (uncomment if needed)
-numpy
+numpy<2
 pandas
 scikit-learn
 matplotlib
 dotenv
+xgboost
+shap
