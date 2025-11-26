@@ -25,6 +25,6 @@ Thumbs.db
 .env
 
 # data files
-data/bronze/*
-data/silver/*
-data/gold/*
+data/01-bronze/*
+data/02-silver/*
+data/03-gold/*
