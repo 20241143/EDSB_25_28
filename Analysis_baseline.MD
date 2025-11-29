@@ -109,21 +109,20 @@ These can be removed or grouped in feature engineering.
 ### 📌 4.1 SHAP Summary Plot  
 Global importance and directionality.
 
-![SHAP Summary Plot](../97-model_metrics/baseline/summary_plot.png)
-
+![SHAP Summary Plot](97-model_metrics/baseline/summary_plot.png)
 ---
 
 ### 📌 4.2 SHAP Bar Plot  
 Mean absolute impact.
 
-![SHAP Bar Plot](../97-model_metrics/baseline/bar_plot.png)
+![SHAP Bar Plot](97-model_metrics/baseline/bar_plot.png)
 
 ---
 
 ### 📌 4.3 SHAP Heatmap (Sampled 1000 rows)  
 Instance-level behavior and feature clustering.
 
-![SHAP Heatmap](../97-model_metrics/baseline/heatmap_plot.png)
+![SHAP Heatmap](97-model_metrics/baseline/heatmap_plot.png)
 
 ---
 
