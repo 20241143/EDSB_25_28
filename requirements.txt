@@ -9,6 +9,8 @@ python-dotenv
 scikit-learn
 xgboost
 shap
+statsmodels
+shap
 
 matplotlib
 seaborn

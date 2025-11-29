@@ -1,4 +1,5 @@
 
+import csv
 import pandas as pd
 import numpy as np
 import unicodedata
@@ -18,6 +19,7 @@ BRONZE_PATH = os.getenv("BRONZE_PATH")
 SILVER_PATH = os.getenv("SILVER_PATH")
 GOLD_PATH = os.getenv("GOLD_PATH")
 FIG_DIR = os.getenv("FIG_DIR")
+MODEL_DIR = os.getenv("MODEL_DIR")
 
 # Utility functions to use across notebooks
 
@@ -51,6 +53,52 @@ def convert_target(df, target_col='y'):
     """
     Converts the target column from 'yes'/'no' to 1/0.
     """
-    if target_col in df.columns:
-        df[target_col] = df[target_col].map({'yes': 1, 'no': 0}).astype(int)
+    try:
+        if target_col in df.columns:
+            df[target_col] = df[target_col].map({'yes': 1, 'no': 0}).astype(int)
+    except Exception as e:
+        print(f"Error converting target column: {e}")
     return df
+
+def save_metrics(model, model_name, metrics_dict):
+    """
+    Save the model's metrics in a single CSV file for comparison.
+    
+    Parameters:
+    -----------
+    model_name : str
+        Identifier for the model (e.g. "baseline_glm", "baseline_lr", "random_forest").
+    metrics_dict : dict
+        Dictionary of metrics such as:
+        {
+            "AUC": 0.85,
+            "Accuracy": 0.91,
+            "Precision": 0.40,
+            "Recall": 0.30,
+            "F1": 0.34,
+            "LogLoss": 0.57
+        }
+    """
+
+    # Always add model name and timestamp
+    metrics_dict = {
+        "Model": model_name,
+        "Timestamp": dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        **metrics_dict
+    }
+
+    path = MODEL_DIR+model
+    os.makedirs(path, exist_ok=True)
+
+    file_exists = os.path.isfile(os.path.join(path, model_name + "_metrics.csv"))
+
+    with open(os.path.join(path, model_name + "_metrics.csv"), "a", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=metrics_dict.keys(), delimiter=';')
+
+        # Write header only for first-time creation
+        if not file_exists:
+            writer.writeheader()
+
+        writer.writerow(metrics_dict)
+
+    print(f"Metrics saved for {model_name} → {path}/{model_name}_metrics.csv")
