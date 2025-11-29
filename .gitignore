@@ -31,3 +31,5 @@ Thumbs.db
 !01-data/02-silver/.gitkeep
 01-data/03-gold/*
 !01-data/03-gold/.gitkeep
+98-reports/figures/*
+!98-reports/figures/20251129-195300/*
