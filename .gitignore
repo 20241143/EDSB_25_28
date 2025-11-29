@@ -25,9 +25,9 @@ Thumbs.db
 .env
 
 # data files
-data/01-bronze/*
-!data/01-bronze/.gitkeep
-data/02-silver/*
-!data/02-silver/.gitkeep
-data/03-gold/*
-!data/03-gold/.gitkeep
+01-data/01-bronze/*
+!01-data/01-bronze/.gitkeep
+01-data/02-silver/*
+!01-data/02-silver/.gitkeep
+01-data/03-gold/*
+!01-data/03-gold/.gitkeep
