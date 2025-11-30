@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from scipy.stats import chi2_contingency
 import datetime as dt
+import joblib
 
 # Load environment variables
 load_dotenv()
@@ -102,3 +103,43 @@ def save_metrics(model, model_name, metrics_dict):
         writer.writerow(metrics_dict)
 
     print(f"Metrics saved for {model_name} → {path}/{model_name}_metrics.csv")
+
+class ModelWrapper:
+    """
+    Universal wrapper for classification models with optional thresholding.
+    Works with sklearn LogisticRegression, decision trees, random forests,
+    gradient boosting, XGBoost, and pipelines.
+    """
+    
+    def __init__(self, pipeline, threshold=0.5, metadata=None):
+        self.pipeline = pipeline
+        self.threshold = threshold
+        self.metadata = metadata if metadata else {}
+
+    def predict_proba(self, X):
+        return self.pipeline.predict_proba(X)[:, 1]
+
+    def predict(self, X):
+        proba = self.predict_proba(X)
+        return (proba >= self.threshold).astype(int)
+
+    def save(self, path):
+        obj = {
+            "pipeline": self.pipeline,
+            "threshold": self.threshold,
+            "metadata": self.metadata,
+            "saved_at": dt.datetime.now().isoformat(),
+        }
+        joblib.dump(obj, path)
+        print(f"Model saved to {path}")
+
+    @staticmethod
+    def load(path):
+        obj = joblib.load(path)
+        wrapper = ModelWrapper(
+            pipeline=obj["pipeline"],
+            threshold=obj["threshold"],
+            metadata=obj.get("metadata", {})
+        )
+        print(f"Model loaded from {path}")
+        return wrapper

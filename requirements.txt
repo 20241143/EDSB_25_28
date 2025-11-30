@@ -11,6 +11,8 @@ xgboost
 shap
 statsmodels
 shap
+category-encoders
+imbalanced-learn==0.14.0
 
 matplotlib
 seaborn

@@ -1,0 +1,2 @@
+Model;Timestamp;AUC;Accuracy;Precision;Recall;F1;LogLoss;Best Threshold;Best Parameters
+logistic_regression;2025-11-30 18:04:10;0.7843495030912597;0.8573110604165134;0.40728476821192056;0.5565610859728507;0.47036328871892924;0.3862226454716029;0.47291457286432165;{'model__C': 0.01, 'model__max_iter': 1000, 'model__penalty': 'l2', 'model__solver': 'lbfgs', 'preprocessor__cat__select__k': 3, 'preprocessor__cat__woe__regularization': 0.01, 'preprocessor__num__select__k': 5, 'smote__k_neighbors': 5, 'smote__sampling_strategy': 0.5}

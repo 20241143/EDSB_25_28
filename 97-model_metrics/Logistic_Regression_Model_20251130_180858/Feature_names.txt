@@ -1,0 +1,6 @@
+Code for saving feature names wasn't created:
+Final feature names used in the model:
+['pdays' 'previous' 'month_cos' 'macro_pca_1' 'macro_pca_2' 'default'
+ 'contact' 'poutcome']
+Feature count: 8
+Coefficient count: 8
