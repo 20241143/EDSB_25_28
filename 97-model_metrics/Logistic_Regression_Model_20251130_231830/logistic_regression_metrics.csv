@@ -1,0 +1,6 @@
+Model;Timestamp;AUC;Accuracy;Precision;Recall;F1;LogLoss;Best Threshold;Best Parameters;Feature Names
+logistic_regression;2025-11-30 23:21:56;0.7890425420100967;0.8701155346235926;0.4418356456776948;0.535229476405947;0.4840689856767027;0.43960897955768874;0.5517085427135678;{'model__C': 1, 'model__max_iter': 2000, 'model__penalty': 'l2', 'model__solver': 'lbfgs', 'preprocessor__cat__select__k': 6, 'preprocessor__cat__woe__regularization': 10.0, 'preprocessor__num__select__k': 15, 'smote__k_neighbors': 5, 'smote__sampling_strategy': 0.7};"['age' 'campaign' 'pdays' 'previous' 'cons_conf_idx' 'month_cos'
+ 'day_of_week_cos' 'age_emp_rate' 'cons_price_cons_conf' 'euribor_nrm'
+ 'campaign_log' 'contacts_ratio' 'economic_volatility' 'macro_pca_1'
+ 'macro_pca_2' 'default' 'contact' 'poutcome' 'job_x_age' 'job_x_marital'
+ 'education_x_default']"

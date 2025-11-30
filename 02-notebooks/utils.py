@@ -61,7 +61,7 @@ def convert_target(df, target_col='y'):
         print(f"Error converting target column: {e}")
     return df
 
-def save_metrics(model, model_name, metrics_dict):
+def save_metrics(model, model_name, metrics_dict, timestamp):
     """
     Save the model's metrics in a single CSV file for comparison.
     
@@ -84,7 +84,7 @@ def save_metrics(model, model_name, metrics_dict):
     # Always add model name and timestamp
     metrics_dict = {
         "Model": model_name,
-        "Timestamp": dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "Timestamp": timestamp,
         **metrics_dict
     }
 
