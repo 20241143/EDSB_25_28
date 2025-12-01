@@ -1,0 +1,37 @@
+name: Deploy to HuggingFace Space
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy selected files to HF
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout full repo
+        uses: actions/checkout@v3
+
+      - name: Setup HuggingFace credentials
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
+          git clone https://user:$HF_TOKEN@huggingface.co/spaces/Ypheros/EDSB_25_28 hf_space
+
+      - name: Copy only selected files
+        run: |
+          rm -rf hf_space/*
+          cp -r 96-huggingface_space/* hf_space/
+
+      - name: Commit + Push to HF Space
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          cd hf_space
+          git add .
+          git commit -m "Auto deploy from GitHub"
+          git push https://user:$HF_TOKEN@huggingface.co/spaces/Ypheros/EDSB_25_28 main
