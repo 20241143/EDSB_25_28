@@ -35,7 +35,7 @@ O dataset contém informação demográfica, socioeconómica e histórica das ca
 - Identificar insights acionáveis para melhorar campanhas futuras.
 - Efetuar o deploy do modelo selecionado para um Space de Hugging Face
 
-### 📊 Exploratory Data Analysis (EDA)
+## 📊 Exploratory Data Analysis (EDA)
 
 A análise exploratória incluiu:
 
@@ -59,25 +59,25 @@ Os principais gráficos gerados incluíram:
 - Heatmap de correlação
 - Scatter plots relevantes
 
-### 🤖 Modelos Desenvolvidos
+## 🤖 Modelos Desenvolvidos
 
 Foram treinados e avaliados três modelos principais:
 
-#### **1️⃣ Baseline: Regressor Linear Simples**
+### **1️⃣ Baseline: Regressor Linear Simples**
 - Criado para estabelecer um ponto de comparação.
 - Permite avaliar se modelos mais complexos trazem melhorias reais.
 
-#### **2️⃣ Regressão Linear**
+### **2️⃣ Regressão Linear**
 - Modelo interpretável com coeficientes diretos.
 - Útil para entender relações lineares e verificar multicolinearidade.
 - Avaliado com métricas como Accuracy, Recall, Precisão e F1 (após binarização).
 
-#### **3️⃣ XGBoost Classifier**
+### **3️⃣ XGBoost Classifier**
 - Modelo principal devido ao melhor desempenho.
 - Captura relações não lineares e interações entre features.
 - Inclui tuning de hiperparâmetros.
 
-### 📈 Avaliação dos Modelos
+## 📈 Avaliação dos Modelos
 
 As métricas utilizadas incluíram:
 
@@ -89,7 +89,7 @@ As métricas utilizadas incluíram:
 
 Também foram geradas **matrizes de confusão** para interpretar os erros de classificação em cada modelo.
 
-### 🔍 Interpretação com SHAP
+## 🔍 Interpretação com SHAP
 
 Para explicar o comportamento dos modelos, especialmente o XGBoost, foram usadas:
 
@@ -102,14 +102,14 @@ Estes gráficos permitiram:
 - Avaliar a direção e força da influência de cada variável.
 - Comunicar resultados a stakeholders de forma clara e transparente.
 
-### 🏁 Conclusões
+## 🏁 Conclusões
 
 - O modelo **XGBoost** apresentou o melhor desempenho global.
 - Variáveis como histórico de campanhas anteriores e indicadores económicos mostraram elevada importância.
 - As análises SHAP forneceram insights claros e justificáveis para utilização prática.
 - A EDA permitiu compreender padrões úteis e confirmar hipóteses sobre comportamentos dos clientes.
 
-### 🗂 Estrutura do Repositório
+## 🗂 Estrutura do Repositório
 ```
 📦 EDSB_25_28
 │
