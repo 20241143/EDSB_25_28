@@ -1,6 +1,6 @@
 ---
-title: EDSB_25_28
-emoji: 📈
+title: Bank Telemarketing Predictor
+emoji: 📞
 colorFrom: blue
 colorTo: green
 sdk: gradio
@@ -9,9 +9,7 @@ app_file: app.py
 pinned: false
 ---
 
-# EDSB_25_28 - Logistic Regression Classifier Demo
+# Bank Telemarketing Predictor
 
-Demo of the telemarketing model trained in the EDSB course.
-
-This Space loads the trained model stored in the `models/` folder
-and exposes a Gradio interface for predictions.
+This Space hosts a Gradio app that loads a trained Logistic Regression model
+and predicts whether a customer will subscribe to a long-term deposit.
