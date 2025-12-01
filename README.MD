@@ -9,7 +9,7 @@ Short description of your project — what it does and why it exists.
 
 **Navigation**
 - [Home](../README.MD)
-- [How to Setup](How_to_setup_git_hugging.MD)
+- [How to Setup](../EDSB_25_28/How_to_setup_git_hugging.MD)
 - [Hugging Face README](../EDSB_25_28/96-huggingface_space/README.md)
 
 ## Requirements
