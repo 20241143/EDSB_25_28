@@ -1,0 +1,7 @@
+gradio==4.4.1
+pandas
+numpy
+scikit-learn
+joblib
+category_encoders
+imbalanced-learn
