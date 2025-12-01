@@ -1,7 +1,4 @@
 # Core project dependencies
-# Add libraries here as your project grows
-
-# Example common packages (uncomment if needed)
 numpy<2
 pandas
 python-dotenv
