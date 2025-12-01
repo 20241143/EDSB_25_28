@@ -1,11 +1,4 @@
 Model;Timestamp;AUC;Accuracy;Precision;Recall;F1;LogLoss;Best Threshold;Best Parameters;Feature Names
-logistic_regression;2025-12-01 00:28:36;0.7893612122707347;0.8702627124880418;0.44136807817589574;0.5255332902391726;0.47978754794924755;0.4406361933724528;0.54678391959799;{'model__C': 1, 'model__max_iter': 2000, 'model__penalty': 'l2', 'model__solver': 'lbfgs', 'preprocessor__cat__select__k': 6, 'preprocessor__cat__woe__regularization': 10.0, 'preprocessor__num__select__k': 15, 'smote__k_neighbors': 3, 'smote__sampling_strategy': 0.7};"['macro_economics__pca0' 'macro_economics__pca1' 'num__campaign'
- 'num__pdays' 'num__previous' 'num__emp_var_rate' 'num__cons_price_idx'
- 'num__cons_conf_idx' 'num__euribor3m' 'num__nr_employed' 'num__month_cos'
- 'num__age_emp_rate' 'num__cons_price_cons_conf' 'num__euribor_nrm'
- 'num__campaign_log' 'num__contacts_ratio' 'num__economic_volatility'
- 'cat__job' 'cat__default' 'cat__contact' 'cat__poutcome' 'cat__job_x_age'
- 'cat__job_x_marital']"
 logistic_regression;2025-12-01 00:35:32;0.7890669394889918;0.8696740010302451;0.44042553191489364;0.535229476405947;0.48322147651006714;0.5764471939062965;0.7339195979899498;{'model__C': 1, 'model__max_iter': 2000, 'model__penalty': 'l2', 'model__solver': 'lbfgs', 'preprocessor__cat__select__k': 6, 'preprocessor__cat__woe__regularization': 10.0, 'preprocessor__num__select__k': 15, 'smoteen__sampling_strategy': 0.5, 'smoteen__smote__k_neighbors': 3};"['macro_economics__pca0' 'macro_economics__pca1' 'num__campaign'
  'num__pdays' 'num__previous' 'num__emp_var_rate' 'num__cons_price_idx'
  'num__cons_conf_idx' 'num__euribor3m' 'num__nr_employed' 'num__month_cos'
