@@ -65,3 +65,5 @@ Irá ser pedido o login com as credenciais Hugging Face. Deverá ser utilizado o
 ### 5. Adicionar o secret como `HF_TOKEN` no github.
 Após criado o secret deverá ser adicionado o yaml [deploy_to_hf](./.github/workflows/deploy_to_hf.yml) à pasta `./.github/workflows/deploy_to_hf.yml`
 Criando assim uma GITHub action que executará sempre que um push main seja efetuado.
+
+NOTA: necessário alterar a linha 26 git clone `https://user:$HF_TOKEN@huggingface.co/spaces/<Username>/<Hugging Face Space> hf_space`
