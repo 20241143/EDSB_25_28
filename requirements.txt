@@ -7,10 +7,9 @@ pandas
 python-dotenv
 
 scikit-learn
-xgboost
+xgboost==3.1.2
 shap
 statsmodels
-shap
 category-encoders
 imbalanced-learn==0.14.0
 
