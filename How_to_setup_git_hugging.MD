@@ -1,6 +1,6 @@
 # 📘 Instruções de Trabalho
 
-[🏠 **Voltar ao README Principal**](README.md)
+[🏠 **Voltar ao README Principal**](README.MD)
 
 
 ### 1. Instalar Git para Windows  
