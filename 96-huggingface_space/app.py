@@ -37,7 +37,7 @@ with gr.Blocks(title="Bank Telemarketing Predictor") as demo:
     with gr.Row():
 
         with gr.Column():
-            age = gr.Slider(18, 95, value=60, label="Age")
+            age = gr.Slider(18, 95, value=25, label="Age")
             job = gr.Dropdown(
                 ["admin.", "blue-collar", "entrepreneur", "housemaid", "management",
                  "retired", "self-employed", "services", "student", "technician",
