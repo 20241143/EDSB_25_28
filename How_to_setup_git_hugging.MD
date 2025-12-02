@@ -38,12 +38,12 @@ git config --global user.email "O_SEU_EMAIL_DO_GITHUB"
 ```bash
 pip install -r requirements.txt
 ```
-### 6. Instalar dependências
+### 7. Instalar dependências
 Se forem necessárias chaves API, será fornecido um ficheiro `.env`
 
 # 🤝 Ligação com Hugging Face
 
-### 1. Criar conta no Hugginh Face e criar o space
+### 1. Criar conta no Hugging Face e criar o Space
 
 ### 2. Gerar token em: https://huggingface.co/settings/tokens
 - Nomes: github_push

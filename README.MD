@@ -23,7 +23,7 @@
 Este projeto tem como objetivo prever o sucesso de chamadas de telemarketing realizadas por um banco português, utilizando técnicas de Machine Learning e análise exploratória de dados (EDA).  
 O dataset contém informação demográfica, socioeconómica e histórica das campanhas, permitindo construir modelos preditivos e identificar os fatores mais relevantes para a conversão.  
 
-> Baseado no documento de descrição do projeto fornecido (Bank Telemarketing Campaigns) *Bank Telemarketing Campaigns (1).pdf*
+> Baseado no documento de descrição do projeto fornecido (Bank Telemarketing Campaigns) *Bank Telemarketing Campaigns.pdf*
 
 
 ### 🧠 Objetivos do Projeto
