@@ -11,5 +11,4 @@ pinned: false
 
 # Bank Telemarketing Predictor
 
-This Space hosts a Gradio app that loads a trained Logistic Regression model
-and predicts whether a customer will subscribe to a long-term deposit.
+This Space hosts a Gradio app that loads a trained Logistic Regression model and predicts whether a customer will subscribe to a long-term deposit.
