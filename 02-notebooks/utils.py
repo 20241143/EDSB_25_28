@@ -21,6 +21,7 @@ SILVER_PATH = os.getenv("SILVER_PATH")
 GOLD_PATH = os.getenv("GOLD_PATH")
 FIG_DIR = os.getenv("FIG_DIR")
 MODEL_DIR = os.getenv("MODEL_DIR")
+HUGGING_DIR = os.getenv("HUGGING_DIR")
 
 # Utility functions to use across notebooks
 
@@ -103,6 +104,9 @@ def save_metrics(model, model_name, metrics_dict, timestamp):
         writer.writerow(metrics_dict)
 
     print(f"Metrics saved for {model_name} → {path}/{model_name}_metrics.csv")
+
+def replace_unknowns(df):
+    return df.replace("unknown", np.nan)
 
 class ModelWrapper:
     """

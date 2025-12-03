@@ -1,72 +1,186 @@
 import gradio as gr
 import pandas as pd
+import joblib
+import numpy as np
 
-# ----------------------------------------------------
-# DUMMY PREDICTOR (replace this later with your model)
-# ----------------------------------------------------
-def predict_deposit(age, job, marital, education, campaign, previous, contact, month, duration):
-    """
-    Dummy function — replace with your actual model.predict().
-    Right now it returns a random probability so the UI works.
-    """
+def replace_unknowns(df):
+    return df.replace("unknown", np.nan)
 
-    # Example simple rule for demo only — REMOVE later
-    prob_yes = min(0.95, (campaign * 0.02) + (previous * 0.05))
-    prob_no = 1 - prob_yes
+# -----------------------------
+# Job mapping
+# -----------------------------
+job_mapping = {
+    "admin.": "admin",
+    "blue-collar": "blue_collar",
+    "technician": "technician",
+    "services": "services_group",
+    "housemaid": "services_group",
+    "management": "management",
+    "retired": "no_labor_force",
+    "student": "no_labor_force",
+    "unemployed": "no_labor_force",
+    "entrepreneur": "self_employed_group",
+    "self-employed": "self_employed_group",
+    "unknown": "unknown"
+}
 
-    prediction = "YES" if prob_yes > 0.5 else "NO"
+# -----------------------------
+# Model Wrapper
+# -----------------------------
+class ModelWrapper:
+    def __init__(self, pipeline, threshold=0.5, metadata=None):
+        self.pipeline = pipeline
+        self.threshold = threshold
+        self.metadata = metadata if metadata else {}
 
-    return {
-        "Prediction": prediction,
-        "Probability YES": prob_yes,
-        "Probability NO": prob_no
-    }
+    def predict_proba(self, X):
+        return self.pipeline.predict_proba(X)[:, 1]
 
+    def predict(self, X):
+        proba = self.predict_proba(X)
+        return (proba >= self.threshold).astype(int)
 
-# ----------------------------------------------------
-# GRADIO UI
-# ----------------------------------------------------
+    @staticmethod
+    def load(path):
+        obj = joblib.load(path)
+        return ModelWrapper(
+            pipeline=obj["pipeline"],
+            threshold=obj["threshold"],
+            metadata=obj.get("metadata", {})
+        )
 
-with gr.Blocks(title="Bank Telemarketing Predictor") as demo:
+# -----------------------------
+# Load model
+# -----------------------------
+model_path = "96-huggingface_space/model.pkl"
+model = ModelWrapper.load(model_path)
 
-    gr.Markdown("# 📞 Bank Telemarketing Predictor")
-    gr.Markdown(
-        "Preencha os campos abaixo para prever se um cliente irá subscrever um depósito a prazo."
-    )
+def get_age_bin(age):
+    bins = [18, 30, 45, 60, 100]
+    labels = ["18_30", "30_45", "45_60", "60_100"]
+    return pd.cut([age], bins=bins, labels=labels)[0]
+
+# -----------------------------
+# Prediction function
+# -----------------------------
+def predict(
+    emp_var_rate,
+    cons_price_idx,
+    euribor3m,
+    nr_employed,
+    contact_val,
+    poutcome_val,
+    job_raw,
+    age,
+    marital
+):
+
+    job = job_mapping.get(job_raw, "unknown")
+
+    # engineered features
+    age_bin = get_age_bin(age)
+    job_x_age = f"{job}_{age_bin}"
+    job_x_marital = f"{job}_{marital}"
+
+    X = pd.DataFrame([{
+        "age": age,
+        "job": job,
+        "marital": marital,
+        "education": 'basic.6y',
+        "default": "no",
+        "housing": "no",
+        "loan": "no",
+        "contact": contact_val,
+        "campaign": 1,
+        "pdays": 0,
+        "previous": 0,
+        "poutcome": poutcome_val,
+        "emp_var_rate": emp_var_rate,
+        "cons_price_idx": cons_price_idx,
+        "cons_conf_idx": -36.4,
+        "euribor3m": euribor3m,
+        "nr_employed": nr_employed,
+        "education_simplified": 'basic.6y',
+        "month_sin": 0.5,
+        "month_cos": 0.866,
+        "day_of_week_sin": 0.78183,
+        "day_of_week_cos": 0.62349,
+        "age_emp_rate": float(age) * float(emp_var_rate),
+        "cons_price_cons_conf": 0,
+        "euribor_nrm": float(euribor3m) / (float(nr_employed) + 1),
+        "job_x_age": job_x_age,
+        "job_x_marital": job_x_marital,
+        "education_x_default": 'no_basic.6y',
+        "campaign_log": np.log1p(1),
+        "contacts_ratio": 0.5,
+        "economic_volatility": 0
+    }])
+
+    proba = model.predict_proba(X)[0]
+    pred = model.predict(X)[0]
+    return f"{proba:.4f}", int(pred)
+
+# -----------------------------
+# Gradio Interface
+# -----------------------------
+contact_options = ["cellular", "telephone", "unknown"]
+poutcome_options = ["success", "failure", "nonexistent", "unknown"]
+job_options = list(job_mapping.keys())
+marital_options = ["single", "married", "divorced", "unknown"]
+
+with gr.Blocks() as demo:
+    gr.Markdown("""# 📞 Predicting the Success of Bank Telemarketing Campaigns
+                This application predicts the probability of a customer subscribing to a term deposit based on various features using a pre-trained classification model.""")
+
+    # ---------------------
+    # 2×2 grid for SLIDERS
+    # ---------------------
+    with gr.Row():
+        emp_var_rate = gr.Slider(-3.5, 1.5, step=0.1, label="Employment var. rate", value=-0.1, info="Employment variation rate - quarterly indicator")
+        cons_price_idx = gr.Slider(92.2, 94.78, step=0.001, label="Consumer Price Index", value=93.798, info="Consumer Price Index - monthly indicator")
 
     with gr.Row():
+        euribor3m = gr.Slider(0.63, 5.05, step=0.001, label="Euribor 3 month rate", value=5.045, info="Euribor 3 month rate - daily indicator")
+        nr_employed = gr.Slider(4963, 5229, step=0.1, label="Number of employees", value=5195.8, info="Number of employees - monthly indicator")
 
-        with gr.Column():
-            age = gr.Slider(18, 95, value=25, label="Age")
-            job = gr.Dropdown(
-                ["admin.", "blue-collar", "entrepreneur", "housemaid", "management",
-                 "retired", "self-employed", "services", "student", "technician",
-                 "unemployed", "unknown"],
-                label="Job"
-            )
-            marital = gr.Dropdown(["single", "married", "divorced", "unknown"], label="Marital Status")
-            education = gr.Dropdown(["primary", "secondary", "tertiary", "unknown"], label="Education")
+    # ---------------------
+    # DROPDOWNS
+    # ---------------------
+    with gr.Row():
+        contact = gr.Dropdown(contact_options, label="Contact", value="telephone", info="Contact communication type")
+        poutcome = gr.Dropdown(poutcome_options, label="Previous outcome", value="nonexistent", info="Outcome of the previous marketing campaign")
 
-        with gr.Column():
-            campaign = gr.Number(label="Number of Contacts (Campaign)", value=1)
-            previous = gr.Number(label="Previous Contacts", value=0)
-            contact = gr.Dropdown(["cellular", "telephone"], label="Contact Type")
-            month = gr.Dropdown(
-                ["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"],
-                label="Month"
-            )
-            duration = gr.Number(label="Call Duration (secs)", value=100)
+    # ---------------------
+    # Job, AGE, marital
+    # ---------------------
+    with gr.Row():
+        job = gr.Dropdown(job_options, label="Job", value="technician", info="Customer's job type")
+        age = gr.Number(label="Age", value=43, info="Customer's age in years")  
+        marital = gr.Dropdown(marital_options, label="Marital status", value="single", info="Customer's marital status")
 
-    predict_btn = gr.Button("Predict")
+    # ---------------------
+    # Output
+    # ---------------------
+    proba_output = gr.Textbox(label="Predicted Probability")
+    class_output = gr.Textbox(label="Predicted Class")
 
-    output = gr.Json(label="Prediction Output")
+    submit = gr.Button("Predict")
 
-    predict_btn.click(
-        fn=predict_deposit,
-        inputs=[age, job, marital, education, campaign, previous, contact, month, duration],
-        outputs=output
+    submit.click(
+        predict,
+        inputs=[
+            emp_var_rate,
+            cons_price_idx,
+            euribor3m,
+            nr_employed,
+            contact,
+            poutcome,
+            job,
+            age,
+            marital
+        ],
+        outputs=[proba_output, class_output]
     )
 
-# Run app
 if __name__ == "__main__":
     demo.launch()
