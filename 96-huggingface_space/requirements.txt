@@ -4,4 +4,5 @@ numpy
 scikit-learn
 joblib
 category_encoders
-imbalanced-learn
+xgboost==3.1.2
+imbalanced-learn==0.14.0
