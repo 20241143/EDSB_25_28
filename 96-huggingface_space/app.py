@@ -52,7 +52,8 @@ class ModelWrapper:
 # -----------------------------
 # Load model
 # -----------------------------
-model_path = "96-huggingface_space/model.pkl"
+# model_path = "96-huggingface_space/model.pkl"
+model_path = "model.pkl"
 model = ModelWrapper.load(model_path)
 
 def get_age_bin(age):
