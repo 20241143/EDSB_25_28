@@ -115,7 +115,6 @@ def predict(
 contact_options = ["cellular", "telephone", "unknown"]
 poutcome_options = ["success", "failure", "nonexistent", "unknown"]
 job_options = list(job_mapping.keys())
-marital_options = ["single", "married", "divorced", "unknown"]
 
 with gr.Blocks() as demo:
     gr.Markdown("""# 📞 Predicting the Success of Bank Telemarketing Campaigns
@@ -146,8 +145,8 @@ with gr.Blocks() as demo:
     # ---------------------
     with gr.Row():
         job = gr.Dropdown(job_options, label="Job", value="technician", info="Customer's job type")
-        age = gr.Number(label="Age", value=43, info="Customer's age in years")  
-        marital = gr.Dropdown(marital_options, label="Marital status", value="single", info="Customer's marital status")
+        age = gr.Number(label="Age", value=43, info="Customer's age in years")
+    with gr.Row():
         pdays = gr.Number(label="Days since last contact", value=0, info="Number of days since the last contact from a previous campaign")
         previous = gr.Number(label="Number of contacts before this campaign", value=0, info="Number of contacts performed before this campaign for this customer")
         month = gr.Number(label="Month of contact (1-12)", value=month_val, info="Month when the contact was made")
