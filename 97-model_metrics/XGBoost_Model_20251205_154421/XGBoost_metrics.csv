@@ -1,0 +1,4 @@
+Model;Timestamp;AUC;Accuracy;Precision;Recall;F1;LogLoss;Best Threshold;Best Parameters;Feature Names
+XGBoost;2025-12-05 15:44:21;0.8037417412252548;0.8716609022003091;0.4501770359129995;0.5753070458952811;0.5051078320090806;0.33961274424468896;0.4088944723618091;{'model__colsample_bytree': 0.7, 'model__learning_rate': 0.03, 'model__max_depth': 5, 'model__min_child_weight': 5, 'model__n_estimators': 200, 'model__subsample': 0.8, 'preprocessor__cat__select__k': 4, 'preprocessor__cat__woe__regularization': 10.0, 'preprocessor__num__select__k': 5, 'smote__k_neighbors': 5, 'smote__sampling_strategy': 0.5};"['macro_economics__pca0' 'macro_economics__pca1' 'num__pdays'
+ 'num__previous' 'num__month_cos' 'num__age_emp_rate' 'num__euribor_nrm'
+ 'job' 'contact' 'poutcome' 'job_x_age']"

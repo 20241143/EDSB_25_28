@@ -2,9 +2,12 @@ import gradio as gr
 import pandas as pd
 import joblib
 import numpy as np
+import datetime as dt
 
 def replace_unknowns(df):
     return df.replace("unknown", np.nan)
+
+month_val = float(dt.datetime.now().month)
 
 # -----------------------------
 # Job mapping
@@ -55,6 +58,7 @@ class ModelWrapper:
 # model_path = "96-huggingface_space/model.pkl"
 model_path = "model.pkl"
 model = ModelWrapper.load(model_path)
+threshold = model.threshold
 
 def get_age_bin(age):
     bins = [18, 30, 45, 60, 100]
@@ -73,52 +77,36 @@ def predict(
     poutcome_val,
     job_raw,
     age,
-    marital
-):
+    pdays,
+    previous,
+    month):
 
     job = job_mapping.get(job_raw, "unknown")
 
     # engineered features
     age_bin = get_age_bin(age)
     job_x_age = f"{job}_{age_bin}"
-    job_x_marital = f"{job}_{marital}"
 
     X = pd.DataFrame([{
-        "age": age,
+        "pdays": pdays,
+        "previous": previous,
+        "month_cos": np.cos(2 * np.pi * float(month) / 12),
+        "age_emp_rate": float(age) * float(emp_var_rate),
+        "euribor_nrm": float(euribor3m) / (float(nr_employed) + 1),
         "job": job,
-        "marital": marital,
-        "education": 'basic.6y',
-        "default": "no",
-        "housing": "no",
-        "loan": "no",
         "contact": contact_val,
-        "campaign": 1,
-        "pdays": 0,
-        "previous": 0,
         "poutcome": poutcome_val,
+        "job_x_age": job_x_age,
         "emp_var_rate": emp_var_rate,
-        "cons_price_idx": cons_price_idx,
-        "cons_conf_idx": -36.4,
         "euribor3m": euribor3m,
         "nr_employed": nr_employed,
-        "education_simplified": 'basic.6y',
-        "month_sin": 0.5,
-        "month_cos": 0.866,
-        "day_of_week_sin": 0.78183,
-        "day_of_week_cos": 0.62349,
-        "age_emp_rate": float(age) * float(emp_var_rate),
-        "cons_price_cons_conf": 0,
-        "euribor_nrm": float(euribor3m) / (float(nr_employed) + 1),
-        "job_x_age": job_x_age,
-        "job_x_marital": job_x_marital,
-        "education_x_default": 'no_basic.6y',
-        "campaign_log": np.log1p(1),
-        "contacts_ratio": 0.5,
-        "economic_volatility": 0
+        "cons_price_idx": cons_price_idx
     }])
 
     proba = model.predict_proba(X)[0]
-    pred = model.predict(X)[0]
+    # use the model's threshold
+    pred = 1 if proba >= threshold else 0
+
     return f"{proba:.4f}", int(pred)
 
 # -----------------------------
@@ -136,6 +124,7 @@ with gr.Blocks() as demo:
     # ---------------------
     # 2×2 grid for SLIDERS
     # ---------------------
+    gr.Markdown("## Macroeconomic Indicators")
     with gr.Row():
         emp_var_rate = gr.Slider(-3.5, 1.5, step=0.1, label="Employment var. rate", value=-0.1, info="Employment variation rate - quarterly indicator")
         cons_price_idx = gr.Slider(92.2, 94.78, step=0.001, label="Consumer Price Index", value=93.798, info="Consumer Price Index - monthly indicator")
@@ -147,6 +136,7 @@ with gr.Blocks() as demo:
     # ---------------------
     # DROPDOWNS
     # ---------------------
+    gr.Markdown("## Customer and Campaign Features")
     with gr.Row():
         contact = gr.Dropdown(contact_options, label="Contact", value="telephone", info="Contact communication type")
         poutcome = gr.Dropdown(poutcome_options, label="Previous outcome", value="nonexistent", info="Outcome of the previous marketing campaign")
@@ -158,6 +148,9 @@ with gr.Blocks() as demo:
         job = gr.Dropdown(job_options, label="Job", value="technician", info="Customer's job type")
         age = gr.Number(label="Age", value=43, info="Customer's age in years")  
         marital = gr.Dropdown(marital_options, label="Marital status", value="single", info="Customer's marital status")
+        pdays = gr.Number(label="Days since last contact", value=0, info="Number of days since the last contact from a previous campaign")
+        previous = gr.Number(label="Number of contacts before this campaign", value=0, info="Number of contacts performed before this campaign for this customer")
+        month = gr.Number(label="Month of contact (1-12)", value=month_val, info="Month when the contact was made")
 
     # ---------------------
     # Output
@@ -178,7 +171,9 @@ with gr.Blocks() as demo:
             poutcome,
             job,
             age,
-            marital
+            pdays,
+            previous,
+            month   
         ],
         outputs=[proba_output, class_output]
     )
