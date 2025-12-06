@@ -26,8 +26,8 @@ It includes:
 
 **Navigation**
 - [Home](README.MD)
-- [How to Setup](How_to_setup_git_hugging.MD)
-- [Hugging Face README](./96-huggingface_space/README.md)
+- [How to Setup GIT and Hugging Face Spaces](How_to_setup_git_hugging.MD)
+- [Baseline Analysis](Analysis_baseline.MD)
 
 ### Requirements
 - See [requirements.txt](requirements.txt) for dependencies.
