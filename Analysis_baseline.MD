@@ -60,7 +60,7 @@ This causes:
 - overlapping contributions  
 - reduced interpretability  
 
-### ✔ What this means
+### What this means
 
 - Logistic Regression remains usable, but its interpretability is weakened.  
 - **PCA on the macroeconomic features is recommended** for the feature-engineered models.
@@ -71,7 +71,7 @@ This causes:
 
 SHAP Global Importance reveals strong predictors:
 
-#### 🔹 Macroeconomic indicators  
+#### Macroeconomic indicators  
 - `emp_var_rate`  
 - `euribor3m`  
 - `nr_employed`  
@@ -79,10 +79,10 @@ SHAP Global Importance reveals strong predictors:
 
 These explain most predictive power.
 
-#### 🔹 Contact method  
+#### Contact method  
 - `contact_telephone` → strong **negative** effect.
 
-#### 🔹 Previous campaign outcome  
+#### Previous campaign outcome  
 - `poutcome_success` → strong positive effect  
 - `poutcome_nonexistent` → moderate positive effect  
 
