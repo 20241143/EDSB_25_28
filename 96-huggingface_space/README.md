@@ -74,13 +74,13 @@ Engineered transformations included:
 
 ### PCA:
 - Applied to macroeconomic block  
-- Extracted 2 principal components explaining >85% variance  
+- Extracted 2 principal components explaining **>85% variance**  
 
 ---
 
 # ⚖️ 3. Handling Class Imbalance
 
-The dataset’s positive class (“subscription = yes”) is only ~11%.
+The dataset’s positive class (“subscription = yes”) is only **~11%**.
 
 To fix this:
 

@@ -142,7 +142,7 @@ We developed and compared several models:
 - SHAP for interpretability  
 
 See full analysis:  
-📄 *Analysis_baseline.md* :contentReference[oaicite:3]{index=3}
+📄 [Analysis Baseline](Analysis_baseline.MD)
 
 ---
 
@@ -196,7 +196,7 @@ It contains:
 - **README.md** → Space documentation  
 
 Setup & deployment instructions:  
-📄 *How_to_setup_git_hugging.md*
+📄 [How to Setup GIT and Hugging Face Spaces](How_to_setup_git_hugging.MD)
 
 ---
 
