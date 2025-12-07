@@ -4,14 +4,25 @@ import joblib
 import numpy as np
 import datetime as dt
 
+# =========================================================
+# Utility Functions
+# =========================================================
+
 def replace_unknowns(df):
+    """
+    Replace 'unknown' string values with NaN so the model's
+    preprocessing pipeline can handle them via imputers.
+    """
     return df.replace("unknown", np.nan)
 
+# Default value for the "month of contact" input
 month_val = float(dt.datetime.now().month)
 
-# -----------------------------
-# Job mapping
-# -----------------------------
+
+# =========================================================
+# Job Category Mapping (same transformation as training)
+# =========================================================
+
 job_mapping = {
     "admin.": "admin",
     "blue-collar": "blue_collar",
@@ -27,24 +38,40 @@ job_mapping = {
     "unknown": "unknown"
 }
 
-# -----------------------------
-# Model Wrapper
-# -----------------------------
+# =========================================================
+# Model Wrapper (compatible with training pipeline)
+# =========================================================
+
 class ModelWrapper:
+
+    """
+    Container for:
+    - A full sklearn/imb pipeline (preprocessing + model)
+    - A decision threshold
+    - Optional metadata (evaluation metrics, etc.)
+
+    Used both during training and for deployment in Gradio.
+    """
+
     def __init__(self, pipeline, threshold=0.5, metadata=None):
         self.pipeline = pipeline
         self.threshold = threshold
         self.metadata = metadata if metadata else {}
 
     def predict_proba(self, X):
+        """Return probability of the positive class (y=1)."""
         return self.pipeline.predict_proba(X)[:, 1]
 
     def predict(self, X):
+        """Return binary prediction using the stored threshold."""
         proba = self.predict_proba(X)
         return (proba >= self.threshold).astype(int)
 
     @staticmethod
     def load(path):
+        """
+        Load a saved ModelWrapper (dictionary saved with joblib).
+        """
         obj = joblib.load(path)
         return ModelWrapper(
             pipeline=obj["pipeline"],
@@ -52,22 +79,35 @@ class ModelWrapper:
             metadata=obj.get("metadata", {})
         )
 
-# -----------------------------
-# Load model
-# -----------------------------
+# =========================================================
+# Load the trained model from HuggingFace directory
+# =========================================================
+
+
 # model_path = "96-huggingface_space/model.pkl"
-model_path = "model.pkl"
+model_path = "model.pkl" # HF Spaces expects the file at project root
 model = ModelWrapper.load(model_path)
-threshold = model.threshold
+threshold = model.threshold # Custom decision threshold
+
+# =========================================================
+# Feature Engineering Helpers (must match training pipeline)
+# =========================================================
 
 def get_age_bin(age):
+
+    """
+    Convert numeric age into the same categorical bins
+    used during model training for job × age interactions.
+    """
+
     bins = [18, 30, 45, 60, 100]
     labels = ["18_30", "30_45", "45_60", "60_100"]
     return pd.cut([age], bins=bins, labels=labels)[0]
 
-# -----------------------------
-# Prediction function
-# -----------------------------
+# =========================================================
+# Main Prediction Function (called by Gradio)
+# =========================================================
+
 def predict(
     emp_var_rate,
     cons_price_idx,
@@ -81,12 +121,19 @@ def predict(
     previous,
     month):
 
+    """
+    Build a single-row DataFrame with engineered features and run
+    the pipeline + threshold to obtain final class prediction.
+    """
+
+    # Map raw job value into engineered job category
     job = job_mapping.get(job_raw, "unknown")
 
-    # engineered features
+    # Interaction feature job × age_bin
     age_bin = get_age_bin(age)
     job_x_age = f"{job}_{age_bin}"
 
+    # Create DataFrame with the same structure as training data
     X = pd.DataFrame([{
         "pdays": pdays,
         "previous": previous,
@@ -103,27 +150,32 @@ def predict(
         "cons_price_idx": cons_price_idx
     }])
 
+    # Predict probability using full pipeline
     proba = model.predict_proba(X)[0]
-    # use the model's threshold
+    # Apply custom threshold from training phase
     pred = 1 if proba >= threshold else 0
 
     return f"{proba:.4f}", int(pred)
 
-# -----------------------------
+# =========================================================
 # Gradio Interface
-# -----------------------------
+# =========================================================
+
 contact_options = ["cellular", "telephone", "unknown"]
 poutcome_options = ["success", "failure", "nonexistent", "unknown"]
 job_options = list(job_mapping.keys())
 
 with gr.Blocks() as demo:
-    gr.Markdown("""# 📞 Predicting the Success of Bank Telemarketing Campaigns
-                This application predicts the probability of a customer subscribing to a term deposit based on various features using a pre-trained classification model.""")
+    gr.Markdown("""
+    # Bank Telemarketing Campaign Outcome Predictor:
+    This application estimates the **probability** that a customer will subscribe to a term deposit based on campaign and macroeconomic features.
+    """)
 
-    # ---------------------
-    # 2×2 grid for SLIDERS
-    # ---------------------
+    # -----------------------------------------------------
+    # Macroeconomic Inputs
+    # -----------------------------------------------------
     gr.Markdown("## Macroeconomic Indicators")
+    
     with gr.Row():
         emp_var_rate = gr.Slider(-3.5, 1.5, step=0.1, label="Employment var. rate", value=-0.1, info="Employment variation rate - quarterly indicator")
         cons_price_idx = gr.Slider(92.2, 94.78, step=0.001, label="Consumer Price Index", value=93.798, info="Consumer Price Index - monthly indicator")
