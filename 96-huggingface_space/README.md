@@ -15,7 +15,6 @@ This interactive **Gradio application** predicts whether a customer will subscri
 
 It uses a fully engineered **XGBoost classification model**, trained as part of the **Enterprise Data Science Bootcamp Final Project**, using the the Bank Marketing Dataset.
 
----
 
 # 🎯 What This App Does
 
@@ -26,7 +25,6 @@ Given customer features (age, job, contact history) and economic indicators (Eur
 
 This allows campaign teams to prioritize high-potential customers and simulate different outreach scenarios.
 
----
 
 # 🧠 Behind the Model
 
@@ -38,7 +36,6 @@ Selected after comparing:
 
 XGBoost was chosen because it captured **non-linear patterns**, **interactions**, and **imbalanced data behavior** significantly better than linear models.
 
----
 
 # 🏗️ How the Model Was Built
 
@@ -76,7 +73,6 @@ Engineered transformations included:
 - Applied to macroeconomic block  
 - Extracted 2 principal components explaining **>85% variance**  
 
----
 
 # ⚖️ 3. Handling Class Imbalance
 
@@ -89,7 +85,6 @@ To fix this:
 
 This avoids models biased toward predicting “no”.
 
----
 
 # 🔍 4. Hyperparameter Optimization
 
@@ -104,23 +99,19 @@ Used **GridSearchCV** with cross-validation to tune:
 - WOE encoder regularization  
 - Feature selection cutoffs  
 
----
-
 # 🧪 5. Final Model Performance
 
 _On test set (after threshold tuning):_
 
 | Metric | Score |
 |-------|-------|
-| **AUC** | ~0.79 |
+| **ROC AUC** | ~0.80 |
 | **Accuracy** | ~0.87 |
-| **Precision** | ~0.44 |
-| **Recall** | ~0.54 |
-| **F1-score** | ~0.48 |
+| **Precision** | ~0.45 |
+| **Recall** | ~0.57 |
+| **F1-score** | ~0.51 |
 
 ### Interpretation:
 - Excellent performance for class 0 (non-subscribers)  
 - Balanced precision/recall for class 1 (subscribers)  
 - Optimal trade-off for maximizing campaign conversion targeting  
-
----

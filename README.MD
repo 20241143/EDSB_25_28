@@ -12,8 +12,6 @@ It includes:
 - CI/CD workflow for automatic deployment  
 - Detailed analysis documentation and metrics
 
----
-
 # 👥 Team Members
 | Name | Student ID |
 |------|------------|
@@ -21,8 +19,6 @@ It includes:
 | Francisco Moutinho | 20240818 |
 | Pedro Boto | 20241144 |
 | João Carvalho | 20241340 |
-
----
 
 **Navigation**
 - [Home](README.MD)
@@ -32,7 +28,6 @@ It includes:
 ### Requirements
 - See [requirements.txt](requirements.txt) for dependencies.
 
----
 # 🗂 Project Structure
 ```
 📦 EDSB_25_28
@@ -47,7 +42,6 @@ It includes:
 │   └── 03-gold/
 │
 ├── 02-notebooks/
-│   ├── __pycache__/
 │   ├── 01-EDA.ipynb
 │   ├── 02-Data Cleaning and Preprocessing.ipynb
 │   ├── 03-Baseline.ipynb
@@ -80,7 +74,6 @@ It includes:
 ├── README.md
 └── requirements.txt
 ```
----
 
 # 📘 Project Overview
 
@@ -89,7 +82,6 @@ The target variable is whether the customer subscribed to a term deposit (`y = y
 
 **Goal:** Build and deploy a model that predicts subscription likelihood during a telemarketing call.
 
----
 
 # 🔍 1. Exploratory Data Analysis (EDA)
 
@@ -114,7 +106,6 @@ The EDA notebook covers:
 - Repeated contacts reduce success likelihood (diminishing returns).  
 - Age groups show different subscription probabilities.
 
----
 
 # 🧹 2. Data Cleaning & Preprocessing
 
@@ -129,7 +120,6 @@ Performed in *Notebook 02*:
 
 Full details available in `02-Data Cleaning and Preprocessing.ipynb`.
 
----
 
 # 🤖 3. Modeling Workflow
 
@@ -144,7 +134,6 @@ We developed and compared several models:
 See full analysis:  
 📄 [Analysis Baseline](Analysis_baseline.MD)
 
----
 
 ### 3.2 Engineered Logistic Regression  
 *Notebook 04*  
@@ -155,7 +144,6 @@ See full analysis:
 - Threshold optimization for F1-score  
 - Full SHAP interpretation
 
----
 
 ### 3.3 XGBoost (Final Model)
 *Notebook 05*  
@@ -164,8 +152,6 @@ See full analysis:
 - Feature engineering + PCA + WOE + SMOTE  
 - Hyperparameter tuning (GridSearchCV)  
 - Threshold tuning (maximize F1-score)
-
----
 
 # 🏆 4. Final Model Selection & Packaging
 
@@ -183,8 +169,6 @@ This ensures the final model is:
 - Version-controlled  
 - Ready for API or UI deployment  
 
----
-
 # 🚀 5. Hugging Face Deployment
 
 The interactive app is located in: 96-huggingface_space/
@@ -198,8 +182,6 @@ It contains:
 Setup & deployment instructions:  
 📄 [How to Setup GIT and Hugging Face Spaces](How_to_setup_git_hugging.MD)
 
----
-
 # 📈 6. Final Model Evaluation
 
 ### XGBoost Performance (optimized threshold)
@@ -207,16 +189,14 @@ Setup & deployment instructions:
 | Metric       | Value |
 |--------------|--------|
 | Accuracy     | ~0.87 |
-| Precision    | ~0.44 |
-| Recall       | ~0.54 |
-| F1-score     | ~0.48 |
-| ROC-AUC      | ~0.79 |
+| Precision    | ~0.45 |
+| Recall       | ~0.57 |
+| F1-score     | ~0.51 |
+| ROC-AUC      | ~0.80 |
 
 These metrics indicate a **balanced recall-focused model**, suitable when false negatives (missed potential subscribers) are costlier than false positives.
 
----
-
-# 🧠 7. Explainability (SHAP)
+# 🏫 7. Explainability (SHAP)
 
 SHAP analysis shows:
 
@@ -230,9 +210,7 @@ SHAP analysis shows:
 Visualization assets stored in:  
 `97-model_metrics/`
 
----
-
-# 🧪 8. Reproducibility
+# 🪞 8. Reproducibility
 
 ### Run locally:
 
