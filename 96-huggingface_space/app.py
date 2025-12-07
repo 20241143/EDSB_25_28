@@ -97,7 +97,7 @@ def get_age_bin(age):
 
     """
     Convert numeric age into the same categorical bins
-    used during model training for job × age interactions.
+    used during model training for job x age interactions.
     """
 
     bins = [18, 30, 45, 60, 100]
@@ -167,14 +167,14 @@ job_options = list(job_mapping.keys())
 
 with gr.Blocks() as demo:
     gr.Markdown("""
-    # Bank Telemarketing Campaign Outcome Predictor:
+    # 📞 Bank Telemarketing Campaign Outcome Predictor:
     This application estimates the **probability** that a customer will subscribe to a term deposit based on campaign and macroeconomic features.
     """)
 
     # -----------------------------------------------------
     # Macroeconomic Inputs
     # -----------------------------------------------------
-    gr.Markdown("## Macroeconomic Indicators")
+    gr.Markdown("## 🏦 Macroeconomic Indicators")
     
     with gr.Row():
         emp_var_rate = gr.Slider(-3.5, 1.5, step=0.1, label="Employment var. rate", value=-0.1, info="Employment variation rate - quarterly indicator")
@@ -187,7 +187,7 @@ with gr.Blocks() as demo:
     # ---------------------
     # DROPDOWNS
     # ---------------------
-    gr.Markdown("## Customer and Campaign Features")
+    gr.Markdown("## 👤 Customer and Campaign Features")
     with gr.Row():
         contact = gr.Dropdown(contact_options, label="Contact", value="telephone", info="Contact communication type")
         poutcome = gr.Dropdown(poutcome_options, label="Previous outcome", value="nonexistent", info="Outcome of the previous marketing campaign")
