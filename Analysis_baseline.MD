@@ -14,8 +14,6 @@ The baseline model is a **scikit-learn Logistic Regression** trained on the clea
 
 This baseline serves as the **reference point** to measure improvements from feature engineering and advanced models such as Random Forest, XGBoost, and an engineered Logistic Regression.
 
----
-
 ## 2. Key Metrics
 
 All metrics were saved in:
@@ -29,17 +27,13 @@ All metrics were saved in:
 - Recall  
 - F1-score  
 - ROC–AUC  
-- Log-loss  
-- Brier score  
-- Majority-class baseline accuracy  
+- Log-loss 
 
 ### Interpretation
 
 - The baseline model provides **reasonable classification performance**, but far from optimal.  
 - This is expected since the model uses raw features and no transformations.  
 - These metrics serve as the baseline for evaluating improvements from feature-engineered and non-linear models.
-
----
 
 ## 3. Important Observations
 
@@ -65,8 +59,6 @@ This causes:
 - Logistic Regression remains usable, but its interpretability is weakened.  
 - **PCA on the macroeconomic features is recommended** for the feature-engineered models.
 
----
-
 ### 3.2 SHAP Highlights Key Predictors
 
 SHAP Global Importance reveals strong predictors:
@@ -88,8 +80,6 @@ These explain most predictive power.
 
 These patterns align with prior analyses of this dataset.
 
----
-
 ### 3.3 Low-Importance Features
 
 Many one-hot encoded features contribute very little:
@@ -102,29 +92,17 @@ Many one-hot encoded features contribute very little:
 
 These can be removed or grouped in feature engineering.
 
----
-
 ## 4. SHAP Visualizations
 
 ### 📌 4.1 SHAP Summary Plot  
 Global importance and directionality.
 
 ![SHAP Summary Plot](97-model_metrics/baseline/summary_plot.png)
----
 
 ### 📌 4.2 SHAP Bar Plot  
 Mean absolute impact.
 
 ![SHAP Bar Plot](97-model_metrics/baseline/bar_plot.png)
-
----
-
-### 📌 4.3 SHAP Heatmap (Sampled 1000 rows)  
-Instance-level behavior and feature clustering.
-
-![SHAP Heatmap](97-model_metrics/baseline/heatmap_plot.png)
-
----
 
 ## 5. Interpretation of the Baseline
 
@@ -144,8 +122,6 @@ This indicates:
 
 The baseline is therefore **valid, interpretable, and useful**, while clearly leaving space for improvement.
 
----
-
 ## 6. Why PCA and Feature Engineering Are Needed Next
 
 ### Required Improvements:
@@ -157,32 +133,8 @@ The baseline is therefore **valid, interpretable, and useful**, while clearly le
 
 ### Additional Modeling Improvements:
 - Feature-engineered Logistic Regression  
-- Random Forest  
 - XGBoost  
 - Better calibration  
 - SHAP comparison across all models  
 
-These steps will significantly outperform the baseline.
-
----
-
-## 7. Next Steps
-
-The next notebook (**Feature Engineering**) will:
-
-1. Apply PCA to macroeconomic features  
-2. Collapse or remove low-frequency categorical levels  
-3. Add engineered variables  
-4. Prepare datasets for:  
-   - Feature-Engineered Logistic Regression  
-   - Random Forest  
-   - XGBoost  
-5. Compare models using:  
-   - ROC–AUC  
-   - Precision and Recall  
-   - F1-score  
-   - Calibration  
-   - SHAP interpretability  
-
-This baseline establishes a clear and measurable starting point for assessing improvements.
-
+These steps should significantly outperform the baseline.
